@@ -1,0 +1,214 @@
+const {Builder, By, Key, until} = require('selenium-webdriver');
+const sleep = require('sleep');
+const ping = require('ping');
+const proxy = require('selenium-webdriver/proxy')
+// d49f02b1c84c76791c624e650ee05759
+
+const axios = require('axios');
+// const base = 'http://api.scrapestack.com/scrape';
+// const params = {
+//   // access_key: 'd49f02b1c84c76791c624e650ee05759',
+//   // url: 'http://scrapestack.com',
+//   // proxy_location: 'id'
+// }
+
+
+// const proxyServer = [
+//   '139.255.13.153:8080',
+//   '139.0.6.36:63141',
+//   '110.232.80.228:8080',
+//   '101.128.67.211:8080',
+//   '139.255.141.65:8080',
+//   '36.92.106.169:8080',
+//   '120.89.95.118:8080',
+//   '203.210.84.53:3128',
+//   '139.255.25.106:8080',
+//   '114.7.206.69:8080',
+//   '36.92.22.70:8080',
+//   '202.169.242.5:8181',
+//   '118.99.127.114:3128',
+//   '111.68.26.237:8080',
+//   '36.66.61.119:8080',
+//   '36.67.168.117:80',
+//   '36.89.231.98:8080',
+//   '118.99.95.136:8080',
+//   '202.137.25.8:8080',
+//   '119.18.152.210:3127',
+//   '115.124.64.234:8080',
+//   '180.250.216.242:3128',
+// ];
+
+(async function example() {  
+  let views = 1;
+  let currentIp = 0;
+
+  async function view () {
+    // if (currentIp === proxyServer.length) return;
+    // ?minDownloadSpeed=500
+    axios.get(`https://api.getproxylist.com/proxy?country=ID&allowsHttps=1&minDownloadSpeed=500`)
+      .then(response => {
+        const { ip, port } = response.data;
+        console.log(`${ip}:${port}`)
+        console.log(response.data);
+        // ping.promise.probe(proxyServer[currentIp].replace(/:.*/g, ''), {
+        ping.promise.probe(`${ip}`, {
+          timeout: 5,
+          extra: ["-i 2"],
+        })
+        .then(async function (res) {
+          currentIp++;
+          if (res.alive) {
+            const driver = await new Builder()
+              .forBrowser('firefox')
+              .setProxy(proxy.manual({
+                http: `${ip}:${port}`,
+                https: `${ip}:${port}`
+              }))
+              .build();
+            try {
+              // await driver.executeScript('window.open();');
+              // await sleep.sleep(1);
+              // const tabs = await driver.getAllWindowHandles();
+              // await driver.switchTo().window(tabs[views]);
+              // driver.setProxy(proxy.manual({
+              //   http: proxyServer[currentIp],
+              //   https: proxyServer[currentIp]
+              // }))
+              await driver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
+              await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
+              // await sleep.sleep(1);
+              await driver.findElement(By.css('button.ytp-mute-button.ytp-button')).click();
+              await driver.findElement(By.css('div.toggle-container.style-scope.paper-toggle-button')).click();
+    
+              // await 
+              // await sleep.sleep(324);
+              // await driver.get('http://www.google.com/ncr');
+              // await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+              // until.titleIs('webdriver - Google Search');
+              views++;
+            } catch (error) {
+              console.log('******** error ');
+              console.log(error);
+              // await driver.quit();
+              console.log('******** error');
+            } finally {
+              setTimeout(async () => {
+                await driver.quit();
+              }, (1000 * (60 * 5)) + (1000 * 24))
+              console.log('finished !!!!!!!!!!!' + views);
+              view();
+            }
+          }
+        }).catch(e => {
+          console.error(e);
+        })
+      })
+      .catch(error => {
+        console.log(error, 'getProxy!!!');
+      });
+    
+  }
+
+  view();
+})(); 
+
+
+
+// (async function example() {
+//   let driver = await new Builder()
+//     .forBrowser('firefox')
+//     // .setProxy(proxy.manual({
+//     //   http: proxyServer[0],
+//     //   https: proxyServer[0]
+//     // }))
+//     .build();
+    
+//     try {
+    //   await driver.get('https://www.google.com');
+    //   await driver.executeScript('window.open();');
+    // // ((JavascriptExecutor) driver).executeScript("window.open()");
+    // // await driver.switchTo().window("");
+    // await driver.executeScript('window.open();');
+    // await driver.executeScript('window.open();');
+    // await driver.executeScript('window.open();');
+    // var tabs = await driver.getAllWindowHandles();
+    // console.log(tabs[3])
+
+    // await driver.switchTo().window(tabs[3]);
+    // await driver.findElement(By.css("body")).sendKeys(Key.CONTROL +"t");
+    // console.log(driver.findElement(By.css("body")))
+    // await driver.findElement(By.css("body")).sendKeys(Key.CONTROL +"t");
+    // console.log(driver.findElement(By.css("body")))
+    // await sleep.sleep(2);
+    
+    // await driver.findElement(By.css("body")).sendKeys(Key.CONTROL +"t");
+    // console.log(driver.findElement(By.css("body")))
+    // await sleep.sleep(2);
+    
+    // await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+    // await until.titleIs('webdriver - Google Search');
+    // await driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+  //   await driver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
+  //   await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
+  //   await sleep.sleep(324);
+  // } finally {
+  //   await driver.quit();
+  // }
+// })(); 
+
+// (async function example() {
+//   const driver = await new Builder()
+//     .forBrowser('firefox')
+//     .build();
+
+//   async function View (index, ip, objDriver) {
+//     try {
+//       await objDriver.switchTo().window(tabs[index]);
+//       // objDriver.setProxy(proxy.manual({
+//       //   http: ip,
+//       //   https: ip
+//       // }))
+//       // objDriver.usingWebDriverProxy(ip);
+//       // await objDriver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
+//       // await objDriver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
+//       // objDriver.switchTo().window(current);
+//       await objDriver.get('http://www.google.com/ncr');
+//       // await objDriver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+//       until.titleIs('webdriver - Google Search');
+//       await sleep.sleep(5);
+//       // await objDriver.findElement(By.css("body")).sendKeys(Key.COMMAND +"t");
+//       // await Key.chord(
+//       //   Key.COMMAND, "t"
+//       // );
+//       // await objDriver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+//       return 1;
+//     } catch (error) {
+//       console.log(error);
+//       throw new Error(error);
+//     }
+//   }
+
+//   proxyServer.forEach(function (host, i) {
+//     ping.promise.probe(host.replace(/:.*/g, ''), {
+//         timeout: 5,
+//         extra: ["-i 2"],
+//     }).then(async function (res) {
+//       if (res.alive) {
+//         try {
+//           await new View(i, host, driver);
+//         } catch (error) {
+//           console.log('********');
+//           console.log(host);
+//           console.log('========');
+//           console.log(error);
+//           console.log('********');
+//         } finally {
+//           console.log('finished !!!!!!!!!!!');
+//         }
+//       }
+//     }).catch(e => {
+//       console.error(e);
+//     })
+//   });
+// })(); 
+

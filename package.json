@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
+    "chalk": "^3.0.0",
+    "node-axios": "^0.1.0",
+    "node-fetch": "^2.6.0",
     "phantom": "^6.3.0",
     "ping": "^0.2.2",
     "selenium-webdriver": "^4.0.0-alpha.5",
