@@ -91,7 +91,7 @@ for (let i = 0; i < proxyList.length; i++) {
               }
               log(chalk.blue.bgGreen.bold(chalk.white(` Success get ${success} views | Proccess ${i + 1}`)));
             // }, 10);
-            }, (1000 * (60 * 2)) + (1000 * 24));
+            }, (1000 * (60 * (Math.floor(Math.random() * (5 - 2 + 1)) + 2))) + (1000 * 24));
             log(chalk.blue.bgBlueBright.bold(chalk.white(` Finish get ${views} | Proccess ${i + 1}`)));
             log(chalk.blue.magenta.bold(chalk.white(` Total get ${success} views | Proccess ${i + 1}`)));
           }
