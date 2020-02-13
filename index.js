@@ -15,7 +15,7 @@ const SCREEN = {
   height: 720
 };
 
-const SECTION = 5;
+const SECTION = 2;
 let proxyList = [];
 
 for (let i = 0; i < SECTION; i++) {
