@@ -39,7 +39,7 @@ for (let i = 0; i < proxyList.length; i++) {
         if (res.alive) {
           const driver = await new Builder()
             .forBrowser('firefox')
-            .setFirefoxOptions(new firefox.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
+            .setFirefoxOptions(new firefox.Options().addArguments("--mute-audio").windowSize(SCREEN))
             // .setChromeOptions(new chrome.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
             // .setProxy(proxy.manual({
             //   http: proxyList[i][currentIp],
