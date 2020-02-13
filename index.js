@@ -37,17 +37,14 @@ for (let i = 0; i < proxyList.length; i++) {
       ping.promise.probe(proxyList[i][currentIp].replace(/:.*/g, ''))
         .then(async function (res) {
         if (res.alive) {
-          // ytd-popup-container class style-scope ytd-app
-          // let playBtn = null;
           const driver = await new Builder()
             .forBrowser('firefox')
-            // .headless()
             .setFirefoxOptions(new firefox.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
             // .setChromeOptions(new chrome.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
-            .setProxy(proxy.manual({
-              http: proxyList[i][currentIp],
-              https: proxyList[i][currentIp]
-            }))
+            // .setProxy(proxy.manual({
+            //   http: proxyList[i][currentIp],
+            //   https: proxyList[i][currentIp]
+            // }))
             .build();
           try {
             await driver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
