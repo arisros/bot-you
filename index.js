@@ -1,5 +1,5 @@
 const {Builder, By, Key, until} = require('selenium-webdriver');
-const sleep = require('sleep');
+// const sleep = require('sleep');
 const ping = require('ping');
 const proxy = require('selenium-webdriver/proxy');
 const chrome = require('selenium-webdriver/chrome');
@@ -53,7 +53,7 @@ for (let i = 0; i < proxyList.length; i++) {
             await driver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
             // playBtn = await driver.wait(until.elementLocated(By.css('btn.ytp-large-play-button.ytp-button')), 1000);
             // await playBtn.click();
-            await sleep.sleep(1);
+            // await sleep.sleep(1);
             await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
           } catch (error) {
             log(chalk.blue.bgRed.bold(chalk.white(` Error Start | Proccess ${i + 1} `)));
