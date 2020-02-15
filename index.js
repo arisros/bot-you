@@ -1,5 +1,5 @@
 const {Builder, By, Key, until} = require('selenium-webdriver');
-// const sleep = require('sleep');
+const sleep = require('sleep');
 const ping = require('ping');
 const proxy = require('selenium-webdriver/proxy');
 const chrome = require('selenium-webdriver/chrome');
@@ -15,7 +15,7 @@ const SCREEN = {
   height: 720
 };
 
-const SECTION = 2;
+const SECTION = 5;
 let proxyList = [];
 
 for (let i = 0; i < SECTION; i++) {
@@ -26,20 +26,25 @@ for (let i = 0; i < proxyList.length; i++) {
   (async function () {  
     let views = 1;
     let success = 0;
-    let currentIp = 0;
+    let currentIp = 40;
     
     async function view () {
       let quit = false;
       log(chalk.blue.bgBlueBright.bold(chalk.white(` Progress ${Math.round(((currentIp + 1)/proxyList[i].length)*100)}% | Proccess ${i + 1} `)));
       log(chalk.blue.bgBlueBright.bold(chalk.white(` Start get ${views} | Proccess ${i + 1} `)));
-      if (currentIp + 1 === proxyList[i].length) return;
+      // if (currentIp + 1 === proxyList[i].length) return;
       log(chalk.magenta.bgMagenta(chalk.white(proxyList[i][currentIp])))
       ping.promise.probe(proxyList[i][currentIp].replace(/:.*/g, ''))
         .then(async function (res) {
         if (res.alive) {
           const driver = await new Builder()
             .forBrowser('firefox')
-            .setFirefoxOptions(new firefox.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
+            .setFirefoxOptions(new firefox.Options()
+              .headless()
+              .setPreference("media.volume_scale", "0.0")
+              // .addArguments("--mute-audio")
+              .windowSize(SCREEN)
+            )
             // .setChromeOptions(new chrome.Options().headless().addArguments("--mute-audio").windowSize(SCREEN))
             .setProxy(proxy.manual({
               http: proxyList[i][currentIp],
@@ -47,11 +52,18 @@ for (let i = 0; i < proxyList.length; i++) {
             }))
             .build();
           try {
-            await driver.get('https://www.youtube.com/watch?v=gRiLiJNbpiM');
+            await driver.get('https://www.youtube.com');
+            await driver.findElement(By.tagName('input')).sendKeys('MAKAN HEWAN INI PENYEBAB VIRUS CORONA', Key.RETURN);
+            // await driver.findElement(By.tagName('input')).sendKeys('nasib valentino rossi 2020 didepak', Key.RETURN);
+            // await driver.findElement(By.tagName('ytd-video-renderer'));
+            await driver.wait(until.elementLocated(By.tagName('ytd-video-renderer')), 10000);
+            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.COMMAND, 'A');
+            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.BACK_SPACE);
+            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys('valentino rossi 2020');
+            const link = await driver.wait(until.elementLocated(By.css("a[title='MAKAN HEWAN INI? PENYEBAB VIRUS CORONA?']")))
+            await link.click();
             // playBtn = await driver.wait(until.elementLocated(By.css('btn.ytp-large-play-button.ytp-button')), 1000);
-            // await playBtn.click();
-            // await sleep.sleep(1);
-            await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
+            // await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
           } catch (error) {
             log(chalk.blue.bgRed.bold(chalk.white(` Error Start | Proccess ${i + 1} `)));
             console.log(error)

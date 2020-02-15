@@ -1,0 +1,10 @@
+{
+  "uid": "botie",
+  "append": true,
+  "watch": true,
+  "script": "index.js",
+  "sourceDir": "/home/ubuntu/bot-you",
+  "logFile": "/home/ubuntu/bot-you/logs/forever.log",
+  "outFile": "/home/ubuntu/bot-you/logs/out.log",
+  "errFile": "/home/ubuntu/bot-you/logs/error.log"
+}

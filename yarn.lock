@@ -253,6 +253,11 @@ diagnostics@^1.1.1:
     enabled "1.0.x"
     kuler "1.0.x"
 
+dotenv@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -998,6 +1003,11 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+wait-sleep@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/wait-sleep/-/wait-sleep-2.0.0.tgz#7e4687ba0050e17d51b5e65ab93f0f52327a9efe"
+  integrity sha512-lCZX/Wz+DSdupete/heWkg2C5Jvq7d8DiUxVPeEbUe2YH/lgj2jH1TwYlUmVQ8OBV3GXCHb40/wzfSM1ioElDQ==
 
 which@^1.2.10:
   version "1.3.1"
