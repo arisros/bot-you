@@ -10,12 +10,14 @@ const log = console.log;
 // require('events').EventEmitter.defaultMaxListeners = 15;
 
 process.setMaxListeners(0);
+const MAX_DURATION_SECONDS = 325;
+const MIN_DURATION_SECONDS = 210;
 const SCREEN = {
   width: 1080,
   height: 720
 };
 
-const SECTION = 5;
+const SECTION = 2;
 let proxyList = [];
 
 for (let i = 0; i < SECTION; i++) {
@@ -26,13 +28,13 @@ for (let i = 0; i < proxyList.length; i++) {
   (async function () {  
     let views = 1;
     let success = 0;
-    let currentIp = 40;
+    let currentIp = 0;
     
     async function view () {
       let quit = false;
       log(chalk.blue.bgBlueBright.bold(chalk.white(` Progress ${Math.round(((currentIp + 1)/proxyList[i].length)*100)}% | Proccess ${i + 1} `)));
       log(chalk.blue.bgBlueBright.bold(chalk.white(` Start get ${views} | Proccess ${i + 1} `)));
-      // if (currentIp + 1 === proxyList[i].length) return;
+      if (currentIp + 1 === proxyList[i].length) return;
       log(chalk.magenta.bgMagenta(chalk.white(proxyList[i][currentIp])))
       ping.promise.probe(proxyList[i][currentIp].replace(/:.*/g, ''))
         .then(async function (res) {
@@ -57,10 +59,11 @@ for (let i = 0; i < proxyList.length; i++) {
             // await driver.findElement(By.tagName('input')).sendKeys('nasib valentino rossi 2020 didepak', Key.RETURN);
             // await driver.findElement(By.tagName('ytd-video-renderer'));
             await driver.wait(until.elementLocated(By.tagName('ytd-video-renderer')), 10000);
-            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.COMMAND, 'A');
-            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.BACK_SPACE);
-            await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys('valentino rossi 2020');
+            // await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.COMMAND, 'A');
+            // await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys(Key.BACK_SPACE);
+            // await driver.wait(until.elementLocated(By.tagName('input')), 10000).sendKeys('valentino rossi 2020');
             const link = await driver.wait(until.elementLocated(By.css("a[title='MAKAN HEWAN INI? PENYEBAB VIRUS CORONA?']")))
+            // const link = await driver.wait(until.elementLocated(By.css("a[title='Nasib Valentino Rossi 2020 di depak YAMAHA | Motogp']")))
             await link.click();
             // playBtn = await driver.wait(until.elementLocated(By.css('btn.ytp-large-play-button.ytp-button')), 1000);
             // await driver.findElement(By.css('button.ytp-large-play-button.ytp-button')).click();
@@ -100,7 +103,7 @@ for (let i = 0; i < proxyList.length; i++) {
               }
               log(chalk.blue.bgGreen.bold(chalk.white(` Success get ${success} views | Proccess ${i + 1}`)));
             // }, 10);
-            }, (1000 * (60 * (Math.floor(Math.random() * (5 - 2 + 1)) + 2))) + (1000 * 24));
+            }, (Math.floor(Math.random() * (MAX_DURATION_SECONDS - MIN_DURATION_SECONDS + 1)) + MIN_DURATION_SECONDS) * 1000);
             log(chalk.blue.bgBlueBright.bold(chalk.white(` Finish get ${views} | Proccess ${i + 1}`)));
             log(chalk.blue.magenta.bold(chalk.white(` Total get ${success} views | Proccess ${i + 1}`)));
           }
